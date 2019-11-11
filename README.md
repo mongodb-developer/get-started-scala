@@ -1,2 +1,61 @@
-# quickstart-scala
-Repository to help getting started with MongoDB Scala driver connecting to MongoDB Atlas
+# Quickstart Scala
+
+Repository to help getting started with MongoDB Scala driver connecting to MongoDB Atlas.
+
+## Information
+
+This Quickstart project uses [MongoDB Scala driver](https://mongodb.github.io/mongo-scala-driver/) version 2.7.0 by default. Although you can change the driver version, the provided code example was only tested against the default version of MongoDB driver. There is no guarantee that the code sample will work for all possible versions of the driver.
+
+## Pre-requisites 
+
+### Docker 
+
+Have Docker running on your machine. You can download and install from: https://docs.docker.com/install/
+
+### MongoDB Atlas
+
+In order to execute the code example, you need to specify `MONGODB_URI` environment variable to connect to a MongoDB cluster. If you don't have any you can create one by signing up [MongoDB Atlas Free-tier M0](https://docs.atlas.mongodb.com/getting-started/). 
+
+## Build Steps 
+
+1. Build Docker image with a tag name. Within this directory execute: 
+   * To use the default driver version and specify `MONGODB_URI`:
+      ```
+      docker build . -t start-scala --build-arg MONGODB_URI="mongodb+srv://usr:pwd@example.mongodb.net/dbname?retryWrites=true"
+      ```
+   * To use a different driver version and specify `MONGODB_URI`. For example:
+      ```
+      docker build . -t start-scala --build-arg DRIVER_VERSION=2.6.0 --build-arg MONGODB_URI="mongodb+srv://usr:pwd@example.mongodb.net/dbname?retryWrites=true"
+      ```
+   This will build a docker image with a tag name `start-scala`. 
+   As a result of the build, the example code is compiled for the specified driver version and ready to be executed.
+
+2. Run the Docker image by executing:
+   ```
+   docker run --tty --interactive --hostname scala start-scala
+   ```
+
+   The command above will run a `start-scala` tagged Docker image. Sets the hostname as `scala`. 
+
+## Execution Steps
+
+1. Run the compiled Scala code example by following below steps:
+   * `cd ~/scala`
+   * `sbt run`
+
+### Change driver version from within the Docker environment
+
+For running the code example in a different driver version from the one built on the image:
+
+1. Modify the version in the build.sbt: mongo-scala-driver version.
+2. Re-compile code (i.e. re-run `sbt`)
+
+From within the docker environment, you can also change the `MONGODB_URI` by changing the environment variable: 
+
+```sh
+export MONGODB_URI="mongodb+srv://usr:pwd@new.mongodb.net/dbname?retryWrites=true"
+```
+
+## Related information
+
+* [MongoDB Scala driver: Getting Started](http://mongodb.github.io/mongo-scala-driver/2.7/)
