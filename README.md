@@ -56,6 +56,10 @@ From within the docker environment, you can also change the `MONGODB_URI` by cha
 export MONGODB_URI="mongodb+srv://usr:pwd@new.mongodb.net/dbname?retryWrites=true"
 ```
 
-## Related information
+## Tutorials
 
 * [MongoDB Scala driver: Getting Started](http://mongodb.github.io/mongo-scala-driver/2.7/)
+
+## About 
+
+This project is part of the MongoDB Quickstart code examples. Please see [quickstart-readme](https://github.com/mongodb-developer/quickstart-readme) for more information. 
