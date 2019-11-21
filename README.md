@@ -1,10 +1,10 @@
-# Quickstart Scala
+# Get-Started Scala
 
 Repository to help getting started with MongoDB Scala driver connecting to MongoDB Atlas.
 
 ## Information
 
-This Quickstart project uses [MongoDB Scala driver](https://mongodb.github.io/mongo-scala-driver/) version 2.7.0 by default. Although you can change the driver version, the provided code example was only tested against the default version of MongoDB driver. There is no guarantee that the code sample will work for all possible versions of the driver.
+This Get-Started project uses [MongoDB Scala driver](https://mongodb.github.io/mongo-scala-driver/) version 2.7.0 by default. Although you can change the driver version, the provided code example was only tested against the default version of MongoDB driver. There is no guarantee that the code sample will work for all possible versions of the driver.
 
 ## Pre-requisites 
 
@@ -62,4 +62,4 @@ export MONGODB_URI="mongodb+srv://usr:pwd@new.mongodb.net/dbname?retryWrites=tru
 
 ## About 
 
-This project is part of the MongoDB Quickstart code examples. Please see [quickstart-readme](https://github.com/mongodb-developer/quickstart-readme) for more information. 
+This project is part of the MongoDB Get-Started code examples. Please see [get-started-readme](https://github.com/mongodb-developer/get-started-readme) for more information. 

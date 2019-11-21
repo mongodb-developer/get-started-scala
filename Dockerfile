@@ -36,7 +36,7 @@ ENV SCALA_HOME /usr/share/scala
 ENV PATH ${PATH}:$SCALA_HOME/bin
 
 RUN mkdir -p ${HOME}/scala
-COPY ./scala/Quickstart.scala ./scala/build.sbt ./scala/Helpers.scala ${HOME}/scala/
+COPY ./scala/Getstarted.scala ./scala/build.sbt ./scala/Helpers.scala ${HOME}/scala/
 
 RUN sed -i "s/x.x.x/${DRIVER_VERSION}/g" ${HOME}/scala/build.sbt
 

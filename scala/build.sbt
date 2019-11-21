@@ -1,4 +1,4 @@
-name := "quickstart";
+name := "getstarted";
 
 version := "1.0.0"
 

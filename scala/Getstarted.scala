@@ -12,14 +12,14 @@ import org.mongodb.scala.model._
 import scala.collection.JavaConverters._
 import com.start.Helpers._
 
-object Quickstart {
+object Getstarted {
 
   def main(args: Array[String]): Unit = {
     
     val mongoClient: MongoClient = MongoClient(sys.env("MONGODB_URI"))
 
     // get handle to a database
-    val database: MongoDatabase = mongoClient.getDatabase("quickstart")
+    val database: MongoDatabase = mongoClient.getDatabase("getstarted")
 
     // get a handle of a collection
     val collection: MongoCollection[Document] = database.getCollection("scala")
