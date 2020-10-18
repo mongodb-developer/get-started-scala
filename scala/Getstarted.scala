@@ -44,7 +44,7 @@ object Getstarted {
 
     val insertAndCount = for {
       insertResult <- insertObservable
-      countResult <- collection.count()
+      countResult <- collection.countDocuments()
     } yield countResult
 
     println(s"total # of documents :  ${insertAndCount.headResult()}")

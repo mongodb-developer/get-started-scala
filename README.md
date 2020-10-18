@@ -4,7 +4,7 @@ Repository to help getting started with MongoDB Scala driver connecting to Mongo
 
 ## Information
 
-This Get-Started project uses [MongoDB Scala driver](https://mongodb.github.io/mongo-scala-driver/) version 2.7.0 by default. Although you can change the driver version, the provided code example was only tested against the default version of MongoDB driver. There is no guarantee that the code sample will work for all possible versions of the driver.
+This Get-Started project uses [MongoDB Scala driver](https://mongodb.github.io/mongo-scala-driver/) version 4.1.1 by default. Although you can change the driver version, the provided code example was only tested against the default version of MongoDB driver. There is no guarantee that the code sample will work for all possible versions of the driver.
 
 ## Pre-requisites 
 
@@ -25,7 +25,7 @@ In order to execute the code example, you need to specify `MONGODB_URI` environm
       ```
    * To use a different driver version and specify `MONGODB_URI`. For example:
       ```
-      docker build . -t start-scala --build-arg DRIVER_VERSION=2.6.0 --build-arg MONGODB_URI="mongodb+srv://usr:pwd@example.mongodb.net/dbname?retryWrites=true"
+      docker build . -t start-scala --build-arg DRIVER_VERSION=2.7.0 --build-arg MONGODB_URI="mongodb+srv://usr:pwd@example.mongodb.net/dbname?retryWrites=true"
       ```
    This will build a docker image with a tag name `start-scala`. 
    As a result of the build, the example code is compiled for the specified driver version and ready to be executed.
@@ -58,7 +58,7 @@ export MONGODB_URI="mongodb+srv://usr:pwd@new.mongodb.net/dbname?retryWrites=tru
 
 ## Tutorials
 
-* [MongoDB Scala driver: Getting Started](http://mongodb.github.io/mongo-scala-driver/2.7/)
+* [MongoDB Scala driver documentation](https://docs.mongodb.com/drivers/scala)
 
 ## About 
 
