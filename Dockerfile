@@ -1,7 +1,7 @@
 FROM ubuntu:20.04
 
 ARG DEBIAN_FRONTEND=noninteractive
-ARG DRIVER_VERSION=4.1.1
+ARG DRIVER_VERSION=2.9.0
 ARG MONGODB_URI
 
 RUN apt-get update && \
@@ -15,7 +15,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 RUN export uid=1000 gid=1000 && \
-    mkdir -p /home/ubuntu && \
+    mkdir -p /home/ubuntu && mkdir /workspace && \
     echo "ubuntu:x:${uid}:${gid}:Developer,,,:/home/ubuntu:/bin/bash" >> /etc/passwd && \
     echo "ubuntu:x:${uid}:" >> /etc/group && \
     echo "ubuntu ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/ubuntu && \
@@ -23,8 +23,9 @@ RUN export uid=1000 gid=1000 && \
     chown ${uid}:${gid} -R /home/ubuntu
 
 ENV HOME /home/ubuntu
+ENV WORKSPACE /workspace
 ENV SCALA_VERSION 2.13.3
-ENV SBT_VERSION 1.3.13
+ENV SBT_VERSION 1.4.5
 ENV MONGODB_URI ${MONGODB_URI}
 ENV DRIVER_VERSION ${DRIVER_VERSION}
 
@@ -45,4 +46,6 @@ RUN chown -R ubuntu ${HOME}/scala && chmod -R 750 ${HOME}/scala
 
 USER ubuntu
 
-CMD ["/bin/bash"]  
+WORKDIR ${WORKSPACE}/scala
+
+ENTRYPOINT ["/bin/bash", "-c"]  
