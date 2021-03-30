@@ -24,6 +24,7 @@ object Getstarted {
     // get a handle of a collection
     val collection: MongoCollection[Document] = database.getCollection("scala")
 
+    println(s"Resetting collection")
     collection.drop().results()
 
     // make a document and insert it
@@ -32,10 +33,10 @@ object Getstarted {
                                  "type" -> "database",
                                  "count" -> 1, 
                                  "info" -> Document("x" -> 203, "y" -> 102))
-
     collection.insertOne(doc).results()
 
     // find the inserted document
+    println(s"Query one document")
     collection.find.first().printResults()
 
     // insert many
@@ -47,22 +48,27 @@ object Getstarted {
       countResult <- collection.countDocuments()
     } yield countResult
 
-    println(s"total # of documents :  ${insertAndCount.headResult()}")
+    println(s"Total # of documents :  ${insertAndCount.headResult()}")
 
     // Query Filters
     // now use a query to get 1 document out
+    println(s"Query one document with filter")
     collection.find(equal("i", 7)).first().printHeadResult()
 
     // Sorting
+    println(s"Query one document sorted")
     collection.find(exists("i")).sort(descending("i")).first().printHeadResult()
 
     // Projection
+    println(s"Query one document with projection")
     collection.find().projection(excludeId()).first().printHeadResult()
 
     // Update One
+    println(s"Update one document")
     collection.updateOne(equal("i", 10), set("i", 110)).printHeadResult("Update Result: ")
 
     // Delete One
+    println(s"Delete one document")
     collection.deleteOne(equal("i", 2)).printHeadResult("Delete Result: ")
 
     collection.drop().results()
@@ -77,15 +83,17 @@ object Getstarted {
       ReplaceOneModel(Document("_id" -> 3), Document("_id" -> 3, "x" -> 4))
     )
 
+    println(s"Bulk operations")
     collection.bulkWrite(writes).printHeadResult("Bulk write results: ")
+
+    //Aggregation
+    println(s"Aggregation result")
+    collection.aggregate(Seq(
+      group(null, sum("total", "$_id")),
+    )).printResults()
 
     // Clean up
     collection.drop().results()
-
-    //Aggregation
-    collection.aggregate(Seq(
-      group(null, sum("total", "$i")),
-    )).printResults()
 
     // release resources
     mongoClient.close()
