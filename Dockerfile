@@ -1,51 +1,32 @@
-FROM ubuntu:20.04
+FROM openjdk:8u151-jre-alpine
 
-ARG DEBIAN_FRONTEND=noninteractive
-ARG DRIVER_VERSION=2.9.0
-ARG MONGODB_URI
+LABEL org.opencontainers.image.source=https://github.com/mongodb-developer/get-started-scala
 
-RUN apt-get update && \
-    apt-get install -y sudo \
-    default-jdk \
-    nano \
-    vim \
-    wget \
-    git &&\
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+ENV HOME=/home/gsuser \
+ SCALA_VERSION=2.13.5 \
+ SBT_VERSION=1.4.9 \
+ SCALA_HOME=/usr/share/scala \
+ PATH="/usr/local/sbt/bin:$PATH" 
 
-RUN export uid=1000 gid=1000 && \
-    mkdir -p /home/ubuntu && mkdir /workspace && \
-    echo "ubuntu:x:${uid}:${gid}:Developer,,,:/home/ubuntu:/bin/bash" >> /etc/passwd && \
-    echo "ubuntu:x:${uid}:" >> /etc/group && \
-    echo "ubuntu ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/ubuntu && \
-    chmod 0440 /etc/sudoers.d/ubuntu && \
-    chown ${uid}:${gid} -R /home/ubuntu
+RUN apk add --no-cache --virtual=.build-dependencies wget && \
+    apk add --no-cache bash && \
+    cd "/tmp" && \
+    wget --no-verbose "https://downloads.typesafe.com/scala/${SCALA_VERSION}/scala-${SCALA_VERSION}.tgz" && \
+    tar xzf "scala-${SCALA_VERSION}.tgz" && \
+    mkdir "${SCALA_HOME}" && \
+    rm "/tmp/scala-${SCALA_VERSION}/bin/"*.bat && \
+    mv "/tmp/scala-${SCALA_VERSION}/bin" "/tmp/scala-${SCALA_VERSION}/lib" "${SCALA_HOME}" && \
+    ln -s "${SCALA_HOME}/bin/"* "/usr/bin/" && \
+    apk del .build-dependencies && \
+    rm -rf "/tmp/"*
 
-ENV HOME /home/ubuntu
-ENV WORKSPACE /workspace
-ENV SCALA_VERSION 2.13.3
-ENV SBT_VERSION 1.4.5
-ENV MONGODB_URI ${MONGODB_URI}
-ENV DRIVER_VERSION ${DRIVER_VERSION}
+RUN apk update && apk add ca-certificates wget tar && \
+    mkdir -p "/usr/local/sbt" && \
+    wget -qO - "https://github.com/sbt/sbt/releases/download/v1.4.9/sbt-1.4.9.tgz" | tar xz -C /usr/local/sbt --strip-components=1
 
-WORKDIR ${HOME}
+RUN addgroup -S gsgroup && adduser -S gsuser -G gsgroup && \
+    chown -R gsuser ${HOME} && chmod -R 750 ${HOME} 
 
-RUN wget http://downloads.lightbend.com/scala/${SCALA_VERSION}/scala-${SCALA_VERSION}.deb && dpkg -i scala-${SCALA_VERSION}.deb
-RUN wget https://dl.bintray.com/sbt/debian/sbt-${SBT_VERSION}.deb && dpkg -i sbt-${SBT_VERSION}.deb
+USER gsuser
 
-ENV SCALA_HOME /usr/share/scala
-ENV PATH ${PATH}:$SCALA_HOME/bin
-
-RUN mkdir -p ${HOME}/scala
-COPY ./scala/Getstarted.scala ./scala/build.sbt ./scala/Helpers.scala ${HOME}/scala/
-
-RUN sed -i "s/x.x.x/${DRIVER_VERSION}/g" ${HOME}/scala/build.sbt
-
-RUN chown -R ubuntu ${HOME}/scala && chmod -R 750 ${HOME}/scala
-
-USER ubuntu
-
-WORKDIR ${WORKSPACE}/scala
-
-ENTRYPOINT ["/bin/bash", "-c"]  
+ENTRYPOINT ["/bin/sh", "-c"]  
